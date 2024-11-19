@@ -24,6 +24,8 @@ export default function Component() {
         }
 
         localStorage.setItem("isAuthenticated", "true");
+        // Dispatch a storage event to notify other components
+        window.dispatchEvent(new Event('storage'));
         navigate("/");
     };
 
@@ -58,7 +60,7 @@ export default function Component() {
     const isPasswordValid = password.length >= 6;
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-200 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="h-full flex items-center justify-center bg-gray-200 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-md">
                 <div>
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -77,9 +79,9 @@ export default function Component() {
                                 type="email"
                                 autoComplete="email"
                                 required
-                                className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${touched.email && !isEmailValid
-                                        ? "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500"
-                                        : "border-gray-300 placeholder:text-gray-500 text-gray-100 focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10"
+                                className={`text-black appearance-none rounded-none relative block w-full px-3 py-2 border ${touched.email && !isEmailValid
+                                    ? "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500"
+                                    : "border-gray-300 placeholder:text-gray-500 text-gray-100 focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10"
                                     } sm:text-sm rounded-t-md`}
                                 placeholder="Correo electrónico"
                                 value={email}
@@ -97,9 +99,9 @@ export default function Component() {
                                 type="password"
                                 autoComplete="current-password"
                                 required
-                                className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${touched.password && !isPasswordValid
-                                        ? "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500"
-                                        : "border-gray-300 placeholder-gray-500 text-gray-100 focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10"
+                                className={`text-black appearance-none rounded-none relative block w-full px-3 py-2 border ${touched.password && !isPasswordValid
+                                    ? "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500"
+                                    : "border-gray-300 placeholder-gray-500 text-gray-100 focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10"
                                     } sm:text-sm rounded-b-md`}
                                 placeholder="Contraseña"
                                 value={password}

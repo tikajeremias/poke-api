@@ -48,7 +48,7 @@ export default function EditCreate() {
 
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8 mt-16">
+    <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8 flex justify-center items-center">
       <div className="max-w-3xl mx-auto">
 
         <div className="bg-white shadow-md rounded-lg p-6 mb-8">

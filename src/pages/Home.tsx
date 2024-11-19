@@ -104,7 +104,7 @@ const Home = () => {
   );
 
   return (
-    <div className="p-4 mt-16 bg-gray-200 h-auto min-h-screen w-full py-10">
+    <div className="p-4 bg-gray-200 h-full w-full py-10 mt-12 px-32">
       <h1 className="text-2xl font-bold mb-4">Lista de Pokémon</h1>
       <SearchBar value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
       <div className="flex justify-between mb-4">
