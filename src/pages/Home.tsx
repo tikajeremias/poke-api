@@ -104,10 +104,10 @@ const Home = () => {
   );
 
   return (
-    <div className="p-4 bg-gray-200 h-full w-full py-10 mt-12 px-32">
+    <div className="p-4 bg-gray-200 h-full w-full py-10 mt-12 px-2 md:px-16 lg:px-32">
       <h1 className="text-2xl font-bold mb-4">Lista de Pokémon</h1>
       <SearchBar value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-      <div className="flex justify-between mb-4">
+      <div className="flex flex-col md:flex-row justify-between gap-2 mb-4">
         <FilterButtons currentFilter={filterSource} onFilterChange={setFilterSource} />
         <SortButtons currentSort={sortOrder} onSortChange={setSortOrder} />
       </div>

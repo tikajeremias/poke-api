@@ -7,7 +7,7 @@ type Props = {
 const FilterButtons = ({ currentFilter, onFilterChange }: Props) => {
   const filters = ["all", "api", "created"];
   return (
-    <div>
+    <div className="flex">
       {filters.map((filter) => (
         <button
           key={filter}

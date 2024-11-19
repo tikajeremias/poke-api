@@ -38,7 +38,7 @@ export default function Navbar() {
 
   return (
     <nav className="bg-gray-600 shadow-lg fixed w-full top-0">
-      <div className="w-full px-32">
+      <div className="w-full px-2 md:px-16 lg:px-32">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0">

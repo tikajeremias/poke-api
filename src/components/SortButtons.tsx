@@ -8,7 +8,7 @@ type Props = {
 
 const SortButtons = ({ currentSort, onSortChange }: Props) => {
   return (
-    <div>
+    <div className="flex">
       <button
         onClick={() => onSortChange("asc")}
         className={`px-4 py-2 rounded-md text-white ml-2 hover:bg-gray-600 transition-colors ${
