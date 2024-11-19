@@ -106,9 +106,7 @@ const Home = () => {
   return (
     <div className="p-4 mt-16 bg-gray-200 h-auto min-h-screen w-full py-10">
       <h1 className="text-2xl font-bold mb-4">Lista de Pokémon</h1>
-
       <SearchBar value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-
       <div className="flex justify-between mb-4">
         <FilterButtons currentFilter={filterSource} onFilterChange={setFilterSource} />
         <SortButtons currentSort={sortOrder} onSortChange={setSortOrder} />
