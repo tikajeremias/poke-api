@@ -11,7 +11,7 @@ const SortButtons = ({ currentSort, onSortChange }: Props) => {
     <div className="flex">
       <button
         onClick={() => onSortChange("asc")}
-        className={`px-4 py-2 rounded-md text-white ml-2 hover:bg-gray-600 transition-colors ${
+        className={`px-4 py-2 rounded-md text-white ml-2 hover:bg-gray-300 transition-colors ${
           currentSort === "asc" ? "bg-gray-800" : "bg-gray-400"
         }`}
       >
@@ -19,7 +19,7 @@ const SortButtons = ({ currentSort, onSortChange }: Props) => {
       </button>
       <button
         onClick={() => onSortChange("desc")}
-        className={`px-4 py-2 rounded-md text-white ml-2 hover:bg-gray-600 transition-colors ${
+        className={`px-4 py-2 rounded-md text-white ml-2 hover:bg-gray-300 transition-colors ${
           currentSort === "desc" ? "bg-gray-800" : "bg-gray-400"
         }`}
       >

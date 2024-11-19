@@ -12,7 +12,7 @@ const FilterButtons = ({ currentFilter, onFilterChange }: Props) => {
         <button
           key={filter}
           onClick={() => onFilterChange(filter)}
-          className={`px-4 py-2 rounded-md text-white ml-2 hover:bg-gray-600 transition-colors ${
+          className={`px-4 py-2 rounded-md text-white ml-2 hover:bg-gray-300 transition-colors ${
             currentFilter === filter ? "bg-gray-800" : "bg-gray-400"
           }`}
         >

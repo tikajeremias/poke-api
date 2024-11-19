@@ -37,7 +37,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-gray-600 shadow-lg fixed w-full top-0">
+    <nav className="bg-white shadow-lg fixed w-full top-0">
       <div className="w-full px-2 md:px-16 lg:px-32">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
@@ -50,7 +50,7 @@ export default function Navbar() {
             </Link>
             <div className="hidden md:block">
               <div className="ml-4 flex items-center md:ml-6">
-                <h1 className="text-white text-xl font-semibold mr-4">Poke API Challenge</h1>
+                <h1 className="text-black text-xl font-semibold mr-4">Poke API Challenge</h1>
               </div>
             </div>
           </div>
@@ -58,20 +58,20 @@ export default function Navbar() {
             <div className="ml-10 flex items-baseline space-x-4">
               <Link
                 to="/"
-                className="text-white hover:bg-gray-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out"
+                className="text-black hover:bg-gray-200 px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out"
               >
                 Home
               </Link>
               <Link
                 to="/edicion"
-                className="text-gray-200 hover:bg-gray-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out"
+                className="text-black hover:bg-gray-200 px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out"
               >
                 Edición
               </Link>
               {!isLoggedIn ? (
                 <Link
                   to="/login"
-                  className="text-gray-200 hover:bg-gray-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out"
+                  className="text-black hover:bg-gray-200 px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out"
                 >
                   Login
                 </Link>) : (
@@ -85,11 +85,11 @@ export default function Navbar() {
             </div>
 
           </div>
-          <div className="-mr-2 flex md:hidden">
+          <div className="-mr-2 flex md:hidden text-black">
             <button
               onClick={toggleMobileMenu}
               type="button"
-              className="bg-gray-600 inline-flex items-center justify-center p-2 rounded-md text-gray-200 hover:text-white hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-600 focus:ring-white"
+              className="bg-white inline-flex items-center justify-center p-2 rounded-md text-black"
               aria-controls="mobile-menu"
               aria-expanded="false"
             >
@@ -137,20 +137,20 @@ export default function Navbar() {
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <Link
               to="/"
-              className="text-white hover:bg-gray-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-150 ease-in-out"
+              className="text-black text-center hover:bg-gray-200 block px-3 py-2 rounded-md text-base font-medium transition duration-150 ease-in-out"
             >
               Home
             </Link>
             <Link
               to="/edicion"
-              className="text-gray-200 hover:bg-gray-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-150 ease-in-out"
+              className="text-black text-center hover:bg-gray-200 block px-3 py-2 rounded-md text-base font-medium transition duration-150 ease-in-out"
             >
               Edición
             </Link>
             {!isLoggedIn && (
               <Link
                 to="/login"
-                className="text-gray-200 hover:bg-gray-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-150 ease-in-out"
+                className="text-black text-center hover:bg-gray-200 block px-3 py-2 rounded-md text-base font-medium transition duration-150 ease-in-out"
               >
                 Login
               </Link>
@@ -158,7 +158,7 @@ export default function Navbar() {
             {isLoggedIn && (
               <button
                 onClick={handleLogout}
-                className="text-white bg-red-500 hover:bg-red-600 hover:text-white block w-full text-left px-3 py-2 rounded-md text-base font-medium transition duration-150 ease-in-out"
+                className="text-white text-center bg-red-500 hover:bg-red-600 hover:text-white block w-full px-3 py-2 rounded-md text-base font-medium transition duration-150 ease-in-out"
               >
                 Logout
               </button>
