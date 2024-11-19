@@ -1,4 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import PokeCard from "../components/PokeCard";
+import SearchBar from "../components/SearchBar";
+import FilterButtons from "../components/FilterButtons";
+import SortButtons from "../components/SortButtons";
+import Pagination from "../components/Pagination";
 
 type Pokemon = {
   id: number;
@@ -7,111 +12,119 @@ type Pokemon = {
   source: string; // 'api' o 'created'
 };
 
-const ITEMS_PER_PAGE = 16;
-
 const Home = () => {
-  const [apiPokemons, setApiPokemons] = useState<Pokemon[]>([]);
-  const [createdPokemons, setCreatedPokemons] = useState<Pokemon[]>([]);
+  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
+  const [filteredPokemons, setFilteredPokemons] = useState<Pokemon[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterSource, setFilterSource] = useState("all");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
+  const [totalPokemons, setTotalPokemons] = useState(0);
+  const [pokemonsPerPage] = useState(16);
 
-  // Obtener Pokémon creados desde el localStorage
-  const loadCreatedPokemons = () => {
-    const storedPokemons = JSON.parse(localStorage.getItem("createdPokemons") || "[]");
-    setCreatedPokemons(storedPokemons);
-  };
+  const totalPages = Math.ceil(filteredPokemons.length / pokemonsPerPage);
 
-  // Obtener Pokémon de la API de forma paginada
-  const fetchApiPokemons = async (page: number) => {
-    const offset = (page - 1) * ITEMS_PER_PAGE;
+  const fetchPokemons = async () => {
     try {
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${ITEMS_PER_PAGE}`);
-      const data = await response.json();
+      let allPokemons: Pokemon[] = [];
+      let offset = 0;
+      const limit = 20;
 
-      const fetchedPokemons = await Promise.all(
-        data.results.map(async (pokemon: any) => {
-          const details = await fetch(pokemon.url).then((res) => res.json());
+      const countResponse = await fetch("https://pokeapi.co/api/v2/pokemon/");
+      const countData = await countResponse.json();
+      const totalCount = countData.count; // Validemos que `totalCount` no sea 0.
+
+      while (offset < totalCount) {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`);
+        const data = await response.json();
+
+        const pokemonPromises = data.results.map(async (pokemon: any) => {
+          const details = await fetch(pokemon.url);
+          const detailsData = await details.json();
           return {
-            id: details.id,
-            name: details.name,
-            image: details.sprites.front_default,
+            id: detailsData.id,
+            name: pokemon.name,
+            image: detailsData.sprites.front_default,
             source: "api",
           };
+        });
+
+        const fetchedPokemons = await Promise.all(pokemonPromises);
+        allPokemons = [...allPokemons, ...fetchedPokemons];
+        offset += limit;
+      }
+
+      // Mezclamos con los Pokémon creados
+      const createdPokemons = JSON.parse(localStorage.getItem("createdPokemons") || "[]").map(
+        (pokemon: any, index: number) => ({
+          id: index + 1000,
+          name: pokemon.name,
+          image: pokemon.image || "https://via.placeholder.com/150",
+          source: "created",
         })
       );
 
-      setApiPokemons(fetchedPokemons);
-      setTotalPages(Math.ceil(1010 / ITEMS_PER_PAGE)); // Número total de pokemones en la pokeapi (1010)
+      setPokemons([...allPokemons, ...createdPokemons]);
+      setFilteredPokemons([...allPokemons, ...createdPokemons]);
+      setLoading(false);
     } catch (error) {
-      console.error("Error fetching Pokémon:", error);
+      setError("Hubo un problema al obtener los Pokémon.");
+      setLoading(false);
     }
   };
 
-  // Manejar cambio de página
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    fetchApiPokemons(page);
-  };
 
-  // Cargar datos al montar el componente
   useEffect(() => {
-    fetchApiPokemons(currentPage);
-    loadCreatedPokemons();
-  }, [currentPage]);
+    fetchPokemons();
+  }, []);
+
+  useEffect(() => {
+    let filtered = pokemons.filter((pokemon) =>
+      pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    if (filterSource !== "all") {
+      filtered = filtered.filter((pokemon) => pokemon.source === filterSource);
+    }
+
+    if (sortOrder === "asc") {
+      filtered.sort((a, b) => a.name.localeCompare(b.name));
+    } else {
+      filtered.sort((a, b) => b.name.localeCompare(a.name));
+    }
+
+    setFilteredPokemons(filtered);
+  }, [searchTerm, filterSource, sortOrder, pokemons]);
+
+  const currentPokemons = filteredPokemons.slice(
+    (currentPage - 1) * pokemonsPerPage,
+    currentPage * pokemonsPerPage
+  );
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Todos los Pokémon</h1>
+    <div className="p-4 mt-16 bg-gray-200 h-auto w-full py-10">
+      <h1 className="text-2xl font-bold mb-4">Lista de Pokémon</h1>
 
-      {/* Lista de Pokémon creados */}
-      <h2 className="text-xl font-semibold mb-2">Pokémon Creados</h2>
-      {createdPokemons.length === 0 ? (
-        <p>No has creado ningún Pokémon aún.</p>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
-          {createdPokemons.map((pokemon) => (
-            <div key={pokemon.id} className="bg-white rounded-lg shadow-md p-4">
-              <img src={pokemon.image} alt={pokemon.name} className="w-20 h-20 mb-2" />
-              <h3 className="text-lg font-bold">{pokemon.name}</h3>
-            </div>
-          ))}
-        </div>
-      )}
+      <SearchBar value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
 
-      {/* Lista de Pokémon de la API */}
-      <h2 className="text-xl font-semibold mb-2">Pokémon de la API</h2>
-      {apiPokemons.length === 0 ? (
-        <p>Cargando Pokémon...</p>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
-          {apiPokemons.map((pokemon) => (
-            <div key={pokemon.id} className="flex flex-col justify-center items-center bg-white rounded-lg shadow-md p-4">
-              <img src={pokemon.image} alt={pokemon.name} className="w-20 h-20 mb-2" />
-              <h3 className="text-lg font-bold">{pokemon.name}</h3>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Paginación */}
-      <div className="flex justify-center mt-4">
-        <button
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="px-4 py-2 mx-1 bg-blue-500 text-white rounded"
-        >
-          Anterior
-        </button>
-        <span className="px-4 py-2">{`Página ${currentPage} de ${totalPages}`}</span>
-        <button
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className="px-4 py-2 mx-1 bg-blue-500 text-white rounded"
-        >
-          Siguiente
-        </button>
+      <div className="flex justify-between mb-4">
+        <FilterButtons currentFilter={filterSource} onFilterChange={setFilterSource} />
+        <SortButtons currentSort={sortOrder} onSortChange={setSortOrder} />
       </div>
 
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {currentPokemons.map((pokemon) => (
+          <PokeCard key={pokemon.id} id={pokemon.id} image={pokemon.image} name={pokemon.name} />
+        ))}
+      </div>
+
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
     </div>
   );
 };

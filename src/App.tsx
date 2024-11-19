@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 // Components
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import CreatePokemon from "./pages/CreatePokemon";
+import EditCreate from "./pages/EditCreate";
 import Navbar from "./components/Navbar";
 // Auth
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -19,7 +19,7 @@ function App() {
           path="/edicion"
           element={
             <ProtectedRoute>
-              <CreatePokemon />
+              <EditCreate />
             </ProtectedRoute>
           }
         />
