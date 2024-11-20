@@ -11,8 +11,9 @@
 1. **Clona el repositorio**: git clone https://github.com/tu-usuario/poke-api-challenge.git
 2. **Navega al directorio del proyecto**: cd poke-api-challenge
 3. **Instala las dependencias**: npm install
-4. **Inicia el servidor de desarrollo**: npm run dev
-5. **Abre tu navegador y navega**: [http://localhost:5173/] (Fijarse si este es el dominio que les devuelve al hacer npm run dev)
+4. **Crear variables de entorno**: Crear dentro de la carpeta "src" un archivo llamado ".env". dentro de este crear la variable [VITE_API_BASE_URL=https://pokeapi.co/api/v2]
+5. **Inicia el servidor de desarrollo**: npm run dev
+6. **Abre tu navegador y navega**: [http://localhost:5173/] (Fijarse si este es el dominio que les devuelve al hacer npm run dev)
 
 ## Contacto:
 - **Sitio Web**: [https://jeredev.vercel.app/]
