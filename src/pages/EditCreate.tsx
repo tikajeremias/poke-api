@@ -48,7 +48,7 @@ export default function EditCreate() {
 
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8 flex justify-center items-center">
+    <div className="min-h-screen bg-gray-100 pt-24 px-4 sm:px-6 lg:px-8 flex justify-center items-center">
       <div className="max-w-3xl mx-auto">
 
         <div className="bg-white shadow-md rounded-lg p-6 mb-8">
@@ -109,9 +109,9 @@ export default function EditCreate() {
           {createdPokemons.length === 0 ? (
             <p className="text-gray-500 text-center">No has creado ningún Pokémon aún.</p>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 overflow-y-scroll">
               {createdPokemons.map((pokemon) => (
-                <div key={pokemon.id} className="bg-gray-50 rounded-lg p-4 relative shadow">
+                <div key={pokemon.id} className="p-4 relative">
                   <button
                     onClick={() => handleDeletePokemon(pokemon.id)}
                     className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"

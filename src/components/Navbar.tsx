@@ -37,7 +37,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-white shadow-lg fixed w-full top-0">
+    <nav className="bg-white shadow-lg fixed w-full top-0 select-none">
       <div className="w-full px-2 md:px-16 lg:px-32">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
@@ -60,7 +60,7 @@ export default function Navbar() {
                 to="/"
                 className="text-black hover:bg-gray-200 px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out"
               >
-                Home
+                Inicio
               </Link>
               <Link
                 to="/edicion"
@@ -73,13 +73,13 @@ export default function Navbar() {
                   to="/login"
                   className="text-black hover:bg-gray-200 px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out"
                 >
-                  Login
+                  Iniciar sesión
                 </Link>) : (
                 <button
                   onClick={handleLogout}
                   className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out"
                 >
-                  Logout
+                  Cerrar sesión
                 </button>)
               }
             </div>
@@ -139,7 +139,7 @@ export default function Navbar() {
               to="/"
               className="text-black text-center hover:bg-gray-200 block px-3 py-2 rounded-md text-base font-medium transition duration-150 ease-in-out"
             >
-              Home
+              Inicio
             </Link>
             <Link
               to="/edicion"
@@ -152,7 +152,7 @@ export default function Navbar() {
                 to="/login"
                 className="text-black text-center hover:bg-gray-200 block px-3 py-2 rounded-md text-base font-medium transition duration-150 ease-in-out"
               >
-                Login
+                Iniciar sesión
               </Link>
             )}
             {isLoggedIn && (
@@ -160,16 +160,9 @@ export default function Navbar() {
                 onClick={handleLogout}
                 className="text-white text-center bg-red-500 hover:bg-red-600 hover:text-white block w-full px-3 py-2 rounded-md text-base font-medium transition duration-150 ease-in-out"
               >
-                Logout
+                Cerrar sesión
               </button>
             )}
-          </div>
-          <div className="pt-4 pb-3 border-t border-gray-500">
-            <div className="flex items-center px-5">
-              <div className="ml-3">
-                <div className="text-base font-medium leading-none text-white">Poke API Challenge</div>
-              </div>
-            </div>
           </div>
         </div>
       )}

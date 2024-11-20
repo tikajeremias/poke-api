@@ -79,10 +79,7 @@ export default function Component() {
                                 type="email"
                                 autoComplete="email"
                                 required
-                                className={`text-black appearance-none rounded-none relative block w-full px-3 py-2 border ${touched.email && !isEmailValid
-                                    ? "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500"
-                                    : "border-gray-300 placeholder:text-gray-500 text-gray-100 focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10"
-                                    } sm:text-sm rounded-t-md`}
+                                className="text-black appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10 sm:text-sm rounded-b-md"
                                 placeholder="Correo electrónico"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
@@ -99,10 +96,7 @@ export default function Component() {
                                 type="password"
                                 autoComplete="current-password"
                                 required
-                                className={`text-black appearance-none rounded-none relative block w-full px-3 py-2 border ${touched.password && !isPasswordValid
-                                    ? "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500"
-                                    : "border-gray-300 placeholder-gray-500 text-gray-100 focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10"
-                                    } sm:text-sm rounded-b-md`}
+                                className="text-black appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10 sm:text-sm rounded-b-md"
                                 placeholder="Contraseña"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}

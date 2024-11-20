@@ -13,7 +13,7 @@ const SearchBar = ({ value, onChange }: Props) => {
       placeholder="Buscar Pokémon..."
       value={value}
       onChange={onChange}
-      className="p-2 border mb-4 w-full"
+      className="p-2 border w-full"
     />
   );
 };

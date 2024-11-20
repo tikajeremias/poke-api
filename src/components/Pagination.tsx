@@ -8,8 +8,9 @@ type Props = {
 };
 
 const Pagination = ({ currentPage, totalPages, onPageChange }: Props) => {
+
   return (
-    <div className="flex justify-center items-center mt-4">
+    <div className="flex justify-center items-center">
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
@@ -17,7 +18,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: Props) => {
       >
         Anterior
       </button>
-      <span>
+      <span className="select-none">
         Página {currentPage} de {totalPages}
       </span>
       <button
