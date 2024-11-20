@@ -1,44 +1,55 @@
 import { useEffect, useState } from "react";
 import PokeCard from "../components/PokeCard";
-import { Pokemon, loadCreatedPokemons, addPokemon, deletePokemon } from "../services/pokemonService";
+import { Pokemon, loadCreatedPokemons, addPokemon, deletePokemon, updatePokemon } from "../services/pokemonService";
+import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 
 export default function EditCreate() {
-  
   // Estado Locales
   const [name, setName] = useState("");
   const [image, setImage] = useState("");
   const [createdPokemons, setCreatedPokemons] = useState<Pokemon[]>([]);
   const [error, setError] = useState("");
+  const [editingPokemon, setEditingPokemon] = useState<Pokemon | null>(null);
 
-  // Maneja la creacion de un nuevo pokemon
-  const handleCreatePokemon = () => {
-    // Validacion: el nombre es obligatorio
+  // Maneja la creación o actualización de un Pokémon
+  const handleCreateOrUpdatePokemon = () => {
+    // Validación: el nombre es obligatorio
     if (!name.trim()) {
       setError("El nombre del Pokémon es obligatorio.");
       return;
     }
-    // Validacion: la URL de la imagen es obligatoria
+    // Validación: la URL de la imagen es obligatoria
     if (!image.trim()) {
       setError("La URL de la imagen es obligatoria.");
       return;
     }
-    // Validacion: la URL debe comenzar con "http" o "https"
+    // Validación: la URL debe comenzar con "http" o "https"
     if (!image.startsWith("http")) {
       setError("La URL de la imagen debe comenzar con 'http' o 'https'.");
       return;
     }
 
-    // Crear un nuevo objeto pokemon
-    const newPokemon: Pokemon = {
-      id: Date.now(),
-      name,
-      image,
-      source: "created",
-    };
-
-    // Agregar el nuevo pokemon a la lista y actualizar el estado
-    const updatedPokemons = addPokemon(newPokemon);
-    setCreatedPokemons(updatedPokemons);
+    if (editingPokemon) {
+      // Actualizar el Pokémon existente
+      const updatedPokemon: Pokemon = {
+        ...editingPokemon,
+        name,
+        image,
+      };
+      const updatedPokemons = updatePokemon(updatedPokemon);
+      setCreatedPokemons(updatedPokemons);
+      setEditingPokemon(null);
+    } else {
+      // Crear un nuevo Pokémon
+      const newPokemon: Pokemon = {
+        id: Date.now(),
+        name,
+        image,
+        source: "created",
+      };
+      const updatedPokemons = addPokemon(newPokemon);
+      setCreatedPokemons(updatedPokemons);
+    }
 
     // Limpiar los campos y el mensaje de error
     setName("");
@@ -48,30 +59,41 @@ export default function EditCreate() {
 
   // Maneja la eliminación de un Pokémon
   const handleDeletePokemon = (id: number) => {
-    // Eliminar el pokemon con el ID especificado y actualizar el estado
     const updatedPokemons = deletePokemon(id);
     setCreatedPokemons(updatedPokemons);
+    if (editingPokemon && editingPokemon.id === id) {
+      setEditingPokemon(null);
+      setName("");
+      setImage("");
+    }
   };
 
-  // Cargar los pokemones creados al crear el componente
+  // Maneja la selección de un Pokémon para editar
+  const handleEditPokemon = (pokemon: Pokemon) => {
+    setEditingPokemon(pokemon);
+    setName(pokemon.name);
+    setImage(pokemon.image);
+  };
+
+  // Cargar los Pokémon creados al montar el componente
   useEffect(() => {
     setCreatedPokemons(loadCreatedPokemons());
   }, []);
 
   return (
     <div className="min-h-screen bg-gray-100 pt-24 px-4 sm:px-6 lg:px-8 flex justify-center items-center">
-      <div className="max-w-3xl mx-auto">
-
-        {/* Seccion para crear nuevos pokemones */}
+      <div className="max-w-3xl min-w-xl w-full mx-auto">
+        {/* Sección para crear o editar Pokémon */}
         <div className="bg-white shadow-md rounded-lg p-6 mb-8">
-          <h1 className="text-3xl font-extrabold text-gray-900 text-center mb-8">Crear Pokémon</h1>
+          <h1 className="text-3xl font-extrabold text-gray-900 text-center mb-8">
+            {editingPokemon ? "Editar Pokémon" : "Crear Pokémon"}
+          </h1>
 
           {/* Mostrar mensaje de error si existe */}
           {error && (
             <div className="bg-red-50 border-l-4 border-red-400 p-4 mb-6">
               <div className="flex">
                 <div className="flex-shrink-0">
-                  {/* Icono de error */}
                   <svg
                     className="h-5 w-5 text-red-400"
                     xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +115,7 @@ export default function EditCreate() {
             </div>
           )}
 
-          {/* Formulario para ingresar datos del nuevo pokemon */}
+          {/* Formulario para ingresar datos del Pokémon */}
           <div className="space-y-4">
             <div>
               <label htmlFor="pokemon-name" className="block text-sm font-medium text-gray-700">
@@ -122,15 +144,15 @@ export default function EditCreate() {
               />
             </div>
             <button
-              onClick={handleCreatePokemon}
+              onClick={handleCreateOrUpdatePokemon}
               className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
             >
-              Crear Pokémon
+              {editingPokemon ? "Actualizar Pokémon" : "Crear Pokémon"}
             </button>
           </div>
         </div>
 
-        {/* Seccion para mostrar pokemones creados */}
+        {/* Sección para mostrar Pokémon creados */}
         <div className="bg-white shadow-md rounded-lg p-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Pokémon Creados</h2>
           {createdPokemons.length === 0 ? (
@@ -139,13 +161,21 @@ export default function EditCreate() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 overflow-y-scroll">
               {createdPokemons.map((pokemon) => (
                 <div key={pokemon.id} className="p-4 relative">
-                  {/* Boton para eliminar un pokemon */}
+                  {/* Botón para eliminar un pokemon */}
                   <button
                     onClick={() => handleDeletePokemon(pokemon.id)}
                     className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                     aria-label="Eliminar Pokémon"
                   >
-                    &times;
+                    <FaRegTrashAlt />
+                  </button>
+                  {/* Botón para editar un pokemon */}
+                  <button
+                    onClick={() => handleEditPokemon(pokemon)}
+                    className="absolute top-2 left-2 bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    aria-label="Editar Pokémon"
+                  >
+                    <FaRegEdit />
                   </button>
                   {/* Tarjeta del pokemon */}
                   <PokeCard id={pokemon.id} image={pokemon.image} name={pokemon.name} />
@@ -154,7 +184,6 @@ export default function EditCreate() {
             </div>
           )}
         </div>
-
       </div>
     </div>
   );

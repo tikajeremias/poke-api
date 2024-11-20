@@ -5,6 +5,7 @@
 - **LocalStorage**: Para gestionar el estado de autenticación en el navegador.
 - **Fetch**: Para realizar solicitudes HTTP a la API
 - **PokéAPI**: API pública utilizada para obtener la información de los Pokémon.
+- **React Icons**: Iconos comunes de React.
 
 ## Iniciar el proyecto:
 1. **Clona el repositorio**: git clone https://github.com/tu-usuario/poke-api-challenge.git

@@ -6,6 +6,8 @@ export type Pokemon = {
     source: string;
 };
 
+const STORAGE_KEY = "createdPokemons";
+
 // Funcion para cargar los pokemones creados desde localStorage
 export const loadCreatedPokemons = (): Pokemon[] => {
     const pokemons = localStorage.getItem("createdPokemons");
@@ -32,3 +34,13 @@ export const deletePokemon = (id: number): Pokemon[] => {
     saveCreatedPokemons(updatedPokemons);
     return updatedPokemons;
 };
+
+// Funcion para actualizar un pokemon de la lista de Pokemon creados
+export function updatePokemon(updatedPokemon: Pokemon): Pokemon[] {
+    const pokemons = loadCreatedPokemons();
+    const updatedPokemons = pokemons.map((pokemon) =>
+        pokemon.id === updatedPokemon.id ? updatedPokemon : pokemon
+    );
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPokemons));
+    return updatedPokemons;
+}
