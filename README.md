@@ -1,50 +1,19 @@
-# React + TypeScript + Vite
+## Tecnologías utilizadas:
+- **React**: Biblioteca principal para la creación de interfaces de usuario.
+- **Tailwind CSS**: Framework de CSS utilizado para los estilos de la interfaz.
+- **React Router**: Para la navegación entre las diferentes páginas.
+- **LocalStorage**: Para gestionar el estado de autenticación en el navegador.
+- **Fetch**: Para realizar solicitudes HTTP a la API
+- **PokéAPI**: API pública utilizada para obtener la información de los Pokémon.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Iniciar el proyecto:
+1. **Clona el repositorio**: git clone https://github.com/tu-usuario/poke-api-challenge.git
+2. **Navega al directorio del proyecto**: cd poke-api-challenge
+3. **Instala las dependencias**: npm install
+4. **Inicia el servidor de desarrollo**: npm run dev
+5. **Abre tu navegador y navega**: [http://localhost:5173/] (Fijarse si este es el dominio que les devuelve al hacer npm run dev)
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## Contacto:
+- **Sitio Web**: [https://jeredev.vercel.app/]
+- **GitHub**: [https://github.com/tikajeremias]
+- **LinkedIn**: [https://www.linkedin.com/in/jeredevv/]

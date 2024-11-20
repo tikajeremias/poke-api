@@ -1,14 +1,11 @@
-// components/Pagination.tsx
-import React from "react";
-
 type Props = {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
 };
 
+// Este componente contiene los botones de paginacion del home
 const Pagination = ({ currentPage, totalPages, onPageChange }: Props) => {
-
   return (
     <div className="flex justify-center items-center">
       <button

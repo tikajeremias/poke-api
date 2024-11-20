@@ -1,4 +1,3 @@
-// components/SearchBar.tsx
 import React from "react";
 
 type Props = {
@@ -6,6 +5,7 @@ type Props = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
+// Componente de navegacion
 const SearchBar = ({ value, onChange }: Props) => {
   return (
     <input

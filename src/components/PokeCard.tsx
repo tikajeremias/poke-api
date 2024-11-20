@@ -6,6 +6,7 @@ interface PokeCardProps {
     name: string;
 }
 
+// Carta de pokemon reutilizable
 const PokeCard: React.FC<PokeCardProps> = ({ id, image, name }) => {
     return (
         <div

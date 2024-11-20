@@ -3,25 +3,32 @@ import PokeCard from "../components/PokeCard";
 import { Pokemon, loadCreatedPokemons, addPokemon, deletePokemon } from "../services/pokemonService";
 
 export default function EditCreate() {
+  
+  // Estado Locales
   const [name, setName] = useState("");
   const [image, setImage] = useState("");
   const [createdPokemons, setCreatedPokemons] = useState<Pokemon[]>([]);
   const [error, setError] = useState("");
 
+  // Maneja la creacion de un nuevo pokemon
   const handleCreatePokemon = () => {
+    // Validacion: el nombre es obligatorio
     if (!name.trim()) {
       setError("El nombre del Pokémon es obligatorio.");
       return;
     }
+    // Validacion: la URL de la imagen es obligatoria
     if (!image.trim()) {
       setError("La URL de la imagen es obligatoria.");
       return;
     }
+    // Validacion: la URL debe comenzar con "http" o "https"
     if (!image.startsWith("http")) {
       setError("La URL de la imagen debe comenzar con 'http' o 'https'.");
       return;
     }
 
+    // Crear un nuevo objeto pokemon
     const newPokemon: Pokemon = {
       id: Date.now(),
       name,
@@ -29,36 +36,54 @@ export default function EditCreate() {
       source: "created",
     };
 
+    // Agregar el nuevo pokemon a la lista y actualizar el estado
     const updatedPokemons = addPokemon(newPokemon);
     setCreatedPokemons(updatedPokemons);
 
+    // Limpiar los campos y el mensaje de error
     setName("");
     setImage("");
     setError("");
   };
 
+  // Maneja la eliminación de un Pokémon
   const handleDeletePokemon = (id: number) => {
+    // Eliminar el pokemon con el ID especificado y actualizar el estado
     const updatedPokemons = deletePokemon(id);
     setCreatedPokemons(updatedPokemons);
   };
 
+  // Cargar los pokemones creados al crear el componente
   useEffect(() => {
     setCreatedPokemons(loadCreatedPokemons());
   }, []);
-
 
   return (
     <div className="min-h-screen bg-gray-100 pt-24 px-4 sm:px-6 lg:px-8 flex justify-center items-center">
       <div className="max-w-3xl mx-auto">
 
+        {/* Seccion para crear nuevos pokemones */}
         <div className="bg-white shadow-md rounded-lg p-6 mb-8">
           <h1 className="text-3xl font-extrabold text-gray-900 text-center mb-8">Crear Pokémon</h1>
+
+          {/* Mostrar mensaje de error si existe */}
           {error && (
             <div className="bg-red-50 border-l-4 border-red-400 p-4 mb-6">
               <div className="flex">
                 <div className="flex-shrink-0">
-                  <svg className="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  {/* Icono de error */}
+                  <svg
+                    className="h-5 w-5 text-red-400"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                 </div>
                 <div className="ml-3">
@@ -68,6 +93,7 @@ export default function EditCreate() {
             </div>
           )}
 
+          {/* Formulario para ingresar datos del nuevo pokemon */}
           <div className="space-y-4">
             <div>
               <label htmlFor="pokemon-name" className="block text-sm font-medium text-gray-700">
@@ -104,6 +130,7 @@ export default function EditCreate() {
           </div>
         </div>
 
+        {/* Seccion para mostrar pokemones creados */}
         <div className="bg-white shadow-md rounded-lg p-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Pokémon Creados</h2>
           {createdPokemons.length === 0 ? (
@@ -112,6 +139,7 @@ export default function EditCreate() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 overflow-y-scroll">
               {createdPokemons.map((pokemon) => (
                 <div key={pokemon.id} className="p-4 relative">
+                  {/* Boton para eliminar un pokemon */}
                   <button
                     onClick={() => handleDeletePokemon(pokemon.id)}
                     className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
@@ -119,12 +147,14 @@ export default function EditCreate() {
                   >
                     &times;
                   </button>
+                  {/* Tarjeta del pokemon */}
                   <PokeCard id={pokemon.id} image={pokemon.image} name={pokemon.name} />
                 </div>
               ))}
             </div>
           )}
         </div>
+
       </div>
     </div>
   );

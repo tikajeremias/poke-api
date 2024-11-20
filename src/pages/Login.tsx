@@ -2,73 +2,96 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Component() {
+    // Navegacion
     const navigate = useNavigate();
+    // Estados locales
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isRegister, setIsRegister] = useState(false);
     const [error, setError] = useState("");
     const [touched, setTouched] = useState({ email: false, password: false });
 
+    // Manejo del inicio de sesion
     const handleLogin = () => {
+        // Obtener los usuarios almacenados en localStorage
         const users = JSON.parse(localStorage.getItem("users") || "[]");
         const user = users.find((user: any) => user.email === email);
 
+        // Error si no se encuentra el usuario o si la contraseña no coincide
         if (!user) {
             setError("El usuario no está registrado.");
             return;
         }
-
         if (user.password !== password) {
             setError("Contraseña incorrecta.");
             return;
         }
 
+        // Marcar al usuario como autenticado
         localStorage.setItem("isAuthenticated", "true");
-        // Dispatch a storage event to notify other components
         window.dispatchEvent(new Event('storage'));
+
+        // Navegacion al home
         navigate("/");
     };
 
+    // Manejo del registro de usuario
     const handleRegister = () => {
+        // Obtener los usuarios existentes
         const users = JSON.parse(localStorage.getItem("users") || "[]");
+        // Verificar si el email ya esta registrado
         const userExists = users.some((user: any) => user.email === email);
 
+        // Error si el usuario ya existe
         if (userExists) {
             setError("El usuario ya está registrado.");
             return;
         }
 
+        // Crea un nuevo usuario
         const newUser = { email, password };
         const updatedUsers = [...users, newUser];
         localStorage.setItem("users", JSON.stringify(updatedUsers));
+
+        // Cambiar a modo de inicio de sesión
         setIsRegister(false);
         alert("Usuario registrado exitosamente.");
     };
 
+    // Manejo del envio del formulario
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
 
         if (isRegister) {
+            // Llamar al manejo de registro si esta en modo de registro
             handleRegister();
         } else {
+            // Llamar al manejo de inicio de sesion si esta en modo de inicio de sesion
             handleLogin();
         }
     };
 
-    const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    const isPasswordValid = password.length >= 6;
+    // Validaciones de los campos
+    const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); // Valida el formato del email
+    const isPasswordValid = password.length >= 3; // Valida que la contraseña tenga al menos 3 caracteres
 
     return (
         <div className="h-full flex items-center justify-center bg-gray-200 py-12 px-4 sm:px-6 lg:px-8">
+
+            {/* Contenedor principal */}
             <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-md">
                 <div>
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
                         {isRegister ? "Crea tu cuenta" : "Inicia sesión"}
                     </h2>
                 </div>
+
+                {/* Formulario */}
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                     <div className="rounded-md shadow-sm -space-y-px">
+
+                        {/* Campo de email */}
                         <div>
                             <label htmlFor="email-address" className="sr-only">
                                 Email
@@ -86,6 +109,8 @@ export default function Component() {
                                 onBlur={() => setTouched({ ...touched, email: true })}
                             />
                         </div>
+
+                        {/* Campo de contraseña */}
                         <div>
                             <label htmlFor="password" className="sr-only">
                                 Contraseña
@@ -103,8 +128,10 @@ export default function Component() {
                                 onBlur={() => setTouched({ ...touched, password: true })}
                             />
                         </div>
+
                     </div>
 
+                    {/* Mensaje de error */}
                     {error && (
                         <div className="rounded-md bg-red-50 p-4">
                             <div className="flex">
@@ -120,6 +147,7 @@ export default function Component() {
                         </div>
                     )}
 
+                    {/* Boton de accion */}
                     <div>
                         <button
                             type="submit"
@@ -133,7 +161,10 @@ export default function Component() {
                             {isRegister ? "Registrar" : "Iniciar sesión"}
                         </button>
                     </div>
+
                 </form>
+
+                {/* Boton para alternar entre signup y signin*/}
                 <div className="text-sm text-center">
                     <button
                         type="button"
@@ -143,6 +174,7 @@ export default function Component() {
                         {isRegister ? "¿Ya tienes cuenta? Inicia sesión" : "¿No tienes cuenta? Regístrate"}
                     </button>
                 </div>
+
             </div>
         </div>
     );

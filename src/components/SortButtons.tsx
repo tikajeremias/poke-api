@@ -1,11 +1,9 @@
-// components/SortButtons.tsx
-import React from "react";
-
 type Props = {
   currentSort: "asc" | "desc";
   onSortChange: (order: "asc" | "desc") => void;
 };
 
+// Este componente contiene los botones para ordenar los pokemones alfabeticamente
 const SortButtons = ({ currentSort, onSortChange }: Props) => {
   return (
     <div className="flex">
